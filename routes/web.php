@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HomeController1;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController as  Person;
 
@@ -95,4 +100,17 @@ Route::get('/home',function(){
         ];
     return view('home',compact('blogs'));
 });
+
+// route controller
+
+Route::get('/home1',[HomeController::class,'index']);
+
+route::get('about2',[AboutController::class,'about']);
+
+
+route::get('contac2',[ContactController::class,'contact']);
+
+Route::resource('blog',BlogController::class);
+
+Route::get('/home2',HomeController1::class);
 
