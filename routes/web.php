@@ -45,3 +45,16 @@ route::get('/show',function(){
     return "<h1> customer show</h1>";
 });
 });
+
+//* metodos de rutas
+//* get - request a resourcwe
+//* post create a new resource
+//* put-update a resource
+//* patch - modify a resource
+//* delete - delete a resource
+
+// fall bacck route
+
+Route::fallback(function(){
+    return "route no exist!";
+});
