@@ -53,8 +53,46 @@ route::get('/show',function(){
 //* patch - modify a resource
 //* delete - delete a resource
 
+
 // fall bacck route
 
 Route::fallback(function(){
     return "route no exist!";
 });
+
+// views
+route::get('about1',function(){
+    $about='this is about page';
+    $about2='this is about two';
+    return view('about.about',compact('about','about2'));
+});
+route::get('contac1',function(){
+    return view('contact');
+});
+
+Route::get('/home',function(){
+    $blogs=[
+        [
+            'title' =>'title one',
+            'body' => 'this is a body text',
+            'status'=> '1'
+        ],
+        [
+            'title' =>'title two',
+            'body' => 'this is a body text',
+            'status'=> '0'
+        ],
+        [
+            'title' =>'title trhee',
+            'body' => 'this is a body text',
+            'status'=> '1',
+        ],
+        [
+            'title' =>'title four',
+            'body' => 'this is a body text',
+            'status'=> '0',
+        ],
+        ];
+    return view('home',compact('blogs'));
+});
+
