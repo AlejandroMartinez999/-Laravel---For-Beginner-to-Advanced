@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeController1;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController as  Person;
 
@@ -114,3 +115,8 @@ Route::resource('blog',BlogController::class);
 
 Route::get('/home2',HomeController1::class);
 
+Route::get('/login',[LoginController::class,'index'])->name('login');
+
+Route::post('/login',[LoginController::class,'handleLogin'])->name('login.submit');
+
+// CSRF token
