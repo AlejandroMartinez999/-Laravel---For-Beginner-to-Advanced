@@ -10,6 +10,7 @@ class HomeController extends Controller
     public function index()
     {
         $blogs=[
+
             [
                 'title' =>'title one',
                 'body' => 'this is a body text',
