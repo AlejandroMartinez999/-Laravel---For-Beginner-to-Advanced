@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\posts;
+use Database\Factories\PostFactory;
 use Illuminate\Support\Facades\DB; // Corregido: Usar Facade DB
 use Illuminate\Support\Str;        // Importar Str para usar Str::random
 use Illuminate\Database\Seeder;
@@ -24,5 +26,6 @@ class PostSeeder extends Seeder
         //         'user_id' => 1,
         //     ]);
         // }
+        posts::factory(200)->create();
     }
 }
