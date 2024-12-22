@@ -26,6 +26,6 @@ class PostSeeder extends Seeder
         //         'user_id' => 1,
         //     ]);
         // }
-        posts::factory(200)->create();
+        posts::factory(50)->create();
     }
 }

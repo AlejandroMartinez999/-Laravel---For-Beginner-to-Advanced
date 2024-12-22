@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeController1;
+use App\Http\Controllers\HomeController3;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController as  Person;
@@ -114,6 +115,8 @@ route::get('contac2',[ContactController::class,'contact']);
 Route::resource('blog',BlogController::class);
 
 Route::get('/home2',HomeController1::class);
+
+Route::get('/home3',HomeController3::class);
 
 Route::get('/login',[LoginController::class,'index'])->name('login');
 

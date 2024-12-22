@@ -19,5 +19,13 @@ class posts extends Model
     //
     protected $fillable =['id','tittle','description','status',"publish_date",'user_id','views','user_id' ];
     // protected $guarded =['id','title','description','status',"publish_date",'user_id','views','user_id' ];
+
+    public function categories(){
+        return $this->belongsTo(categories::class,'id_category','id');
+    }
+
+    public function tags(){
+        return $this->belongsToMany(tags::class,'post_tag','post_id','tag_id');
+    }
     //
 }
