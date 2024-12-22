@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('addres', function (Blueprint $table) {
             $table->id();
             $table->text('address');
-            $table->unsignedBigInteger('user_id');
+            // $table->unsignedBigInteger('user_id');
             $table->foreignId('user_id')->constrained('users1');
             $table->timestamps();
         });

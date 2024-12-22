@@ -123,6 +123,12 @@ Route::get('/home3',HomeController3::class);
 
 Route::get('/home4',HomeController4::class);
 
+Route::get("/sucess",function(){
+    return "<h1> sucessfully uploaded</h1>";
+})->name('sucess');
+
+Route::get('downolad',[ImageController::class,'download'])->name('download');
+
 Route::post('/UploadedFile',[ImageController::class,'handleImage'])->name('upload-file');
 
 Route::get('/login',[LoginController::class,'index'])->name('login');

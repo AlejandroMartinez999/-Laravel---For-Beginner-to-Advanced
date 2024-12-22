@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <main role="main" class="container">
-        <img src="{{ asset('/storage/images/Tsugumi💙.png') }}" alt="">
+        <img src="{{ asset('/storage/images/Tsugumi💙.png') }}" height="250px" alt="" >
         <div class="col-md-4 mt-5">
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
@@ -26,5 +26,6 @@
                 </div>
             </div>
         </div>
+        <a href="{{route('download')}}" class="btn btn-primary mt-3" >Downlad Image</a>
     </main>
 @endsection
