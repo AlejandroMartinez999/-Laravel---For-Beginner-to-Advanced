@@ -11,7 +11,9 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController as  Person;
+use App\Http\Controllers\PostController;
 use GuzzleHttp\Psr7\UploadedFile;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -134,5 +136,13 @@ Route::post('/UploadedFile',[ImageController::class,'handleImage'])->name('uploa
 Route::get('/login',[LoginController::class,'index'])->name('login');
 
 Route::post('/login',[LoginController::class,'handleLogin'])->name('login.submit');
+
+Route::get('/posts/trash',[PostController::class,'trash'])->name('posts.trash');
+
+Route::get('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
+
+Route::Delete('/posts/{id}/forceDelete', [PostController::class, 'forceDelete'])->name('posts.forceDelete');
+
+Route::resource('posts',PostController::class);
 
 // CSRF token

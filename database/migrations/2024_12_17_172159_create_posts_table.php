@@ -21,7 +21,7 @@ return new class extends Migration
             // More Datatypes
             //? $table->date('date');
             // ?$table->datetime('date_time');
-            // ?$table->time('time');
+            // ?$table->time('time');19
 
             // ?$table->decimal('ammount')->default(0);
             // ?$table->double('double');
