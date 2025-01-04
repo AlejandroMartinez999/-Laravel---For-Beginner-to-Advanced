@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\categories1;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Middleware\AuthCheck;
 use App\Models\posts1;
 use Illuminate\Support\Facades\File; // Correct import for File
 
 class PostController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */

@@ -132,13 +132,17 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 Route::post('/login', [LoginController::class, 'handleLogin'])->name('login.submit');
 
+
+
+// Route::get
+
 Route::get('/posts/trash', [PostController::class, 'trash'])->name('posts.trash');
 
 Route::get('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
 
 Route::delete('/posts/{id}/forceDelete', [PostController::class, 'forceDelete'])->name('posts.forceDelete');
 
-Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)->middleware('authCheck');
 
 Route::get('/sample', [SampleController::class, 'index'])->name('sample.index');
 
@@ -146,4 +150,21 @@ Route::get('/check', function () {
     return CustomFacade::SomeMethod();
 });
 
+Route::get('/unavailable', function () {
+    return view('unavailable');
+})->name('unavailable');
 // CSRF token
+
+// ?routegrup
+
+
+
+Route::group(['middleware' => 'authCheck'], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/profile', function () {
+        return view('profile');
+    });
+});
