@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Middleware\AuthCheck;
 use App\Models\posts1;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File; // Correct import for File
 
 class PostController extends Controller
@@ -17,7 +18,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = posts1::paginate(3);
+        $posts= Cache::remember('posts-page-'.request('page',1), 60*3, function () {
+            return posts1::with('category1')->paginate(3);
+        });
+        // $posts= Cache::rememberForever('posts1', function () {
+        //     return posts1::with('category1')->paginate(3);
+        // });
+        // $posts = posts1::paginate(3);
         return view('index', compact('posts'));
         //
     }

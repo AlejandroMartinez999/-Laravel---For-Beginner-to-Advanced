@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeController1;
@@ -17,7 +18,8 @@ use App\Mail\OrderShipped;
 use App\Models\posts1;
 use App\Support\Facades\CustomFacade;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -145,7 +147,9 @@ Route::get('/posts/{id}/restore', [PostController::class, 'restore'])->name('pos
 
 Route::delete('/posts/{id}/forceDelete', [PostController::class, 'forceDelete'])->name('posts.forceDelete');
 
-Route::resource('posts', PostController::class)->middleware('authCheck');
+Route::resource('posts', PostController::class)
+// ->middleware('authCheck');
+;
 
 Route::get('/sample', [SampleController::class, 'index'])->name('sample.index');
 
@@ -182,5 +186,44 @@ route::get('/send-email',function(){
     // });
     Mail::send(new OrderShipped);
     dd('success');
+});
+
+// ? http
+
+Route::get('/get-session',function(Request $request)
+{
+    // $data = session()->all();
+
+    $data = $request->session()->all();
+
+    // $data=$request->session()->get('_token');
+    dd($data);
+});
+
+Route::get('/save-session',function(Request $request)
+{
+
+    session(['user_id'=>'123']);
+    $request->session()->put(['user_status'=>'logged_in']);
+    session(['user_ip'=>'123.23.11']);
+    return redirect('/get-session');
+});
+
+Route::get('/destroy-session',function(Request $request){
+    // $request->session()->forget(['user_id','user_ip']);
+    // session()->forget(['user_id','user_ip']);
+    session()->flush();
+    return redirect('/get-session');
+
+});
+
+Route::get('/flash-session', function (Request $request){
+    // $request->session()->flash('status','true');
+    Session::flash('status', 'true');
+    return redirect('get-session');
+});
+
+Route::get('/forget-cache',function(){
+    Cache::forget('posts1');
 });
 
