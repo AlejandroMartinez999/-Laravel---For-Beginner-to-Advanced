@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController as Person;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SampleController;
+use App\Mail\OrderShipped;
+use App\Models\posts1;
 use App\Support\Facades\CustomFacade;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('welcome');
@@ -155,10 +158,13 @@ Route::get('/unavailable', function () {
 })->name('unavailable');
 // CSRF token
 
+Route::get('/contact',function(){
+    $posts=posts1::all();
+
+    return view('contact',compact('posts'));
+});
+
 // ?routegrup
-
-
-
 Route::group(['middleware' => 'authCheck'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -168,3 +174,13 @@ Route::group(['middleware' => 'authCheck'], function () {
         return view('profile');
     });
 });
+
+//?email
+route::get('/send-email',function(){
+    // Mail::raw('Hello world this is a test mail', function($message){
+    //     $message->to('alexmtzf18@gmail.com')->subject('noreplay');
+    // });
+    Mail::send(new OrderShipped);
+    dd('success');
+});
+

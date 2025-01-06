@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Usar Bootstrap para la paginación
         Paginator::useBootstrap();
+
+        View::share('site_name', 'MY SITE');
     }
 }
