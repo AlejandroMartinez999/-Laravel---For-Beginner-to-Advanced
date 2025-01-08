@@ -10,14 +10,20 @@
 
         <div class="card">
             <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
 
-                            all post
-                        </div>
+                        all post
+                    </div>
                     <div class="col-md-6 d-flex justify-content-end">
-                        <a class="btn btn-success mx-1" href="{{route('posts.create')}}">Create</a>
-                        <a class="btn btn-warning mx-1" href="{{route('posts.trash')}}">Trash</a>
+                            @can('create', \App\Models\posts1::class)
+
+
+                            <a class="btn btn-success mx-1" href="{{ route('posts.create') }}">Create</a>
+                        @endcan
+                        @can('delete_post')
+                            <a class="btn btn-warning mx-1" href="{{ route('posts.trash') }}">Trash</a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -35,39 +41,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($posts as $post )
-                        <tr>
-                            <td scope="row">{{$post->id}}</td>
-                            <td>
-                                <img src="{{asset($post->image)}}"
-                                alt="" width="80px">
-                                {{-- <img src="{{asset(uploads/1734983532_tsugumi___nisekoi_by_taigalife_d8agjyl-pre.jpg)}}" --}}
-                                {{-- alt="" width="80px"> --}}
-                            </td>
-                                <td>{{$post->title}} </td>
-                                <td>{{$post->description}}
+                        @foreach ($posts as $post)
+                            <tr>
+                                <td scope="row">{{ $post->id }}</td>
+                                <td>
+                                    <img src="{{ asset($post->image) }}" alt="" width="80px">
+                                    {{-- <img src="{{asset(uploads/1734983532_tsugumi___nisekoi_by_taigalife_d8agjyl-pre.jpg)}}" --}}
+                                    {{-- alt="" width="80px"> --}}
+                                </td>
+                                <td>{{ $post->title }} </td>
+                                <td>{{ $post->description }}
 
-                                    <td>{{$post->category1->name}}</td>
-                                    <td> {{date('d-m-y',strtotime($post->created_at))}}</td>
-                                    <td>
-                                        <a href="{{route('posts.show',$post->id)}}" class="btn btn-sm btn-success">show</a>
-
-                                        <a href="{{route('posts.edit',$post->id)}}" class="btn btn-sm btn-primary">Edit</a>
-
-                                        {{-- <a href="" class="btn btn-sm btn-danger">Delete</a>
+                                <td>{{ $post->category1->name }}</td>
+                                <td> {{ date('d-m-y', strtotime($post->created_at)) }}</td>
+                                <td>
+                                    <a href="{{ route('posts.show', $post->id) }}" class="btn btn-sm btn-success">show</a>
+                                    {{-- @can('edit_post') --}}
+                                    @can('update', $post)
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    @endcan
+                                    {{-- <a href="" class="btn btn-sm btn-danger">Delete</a>
                                     </a> --}}
-                                    <form action="{{route('posts.destroy',$post->id)}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
+                                    @can('delete', $post)
+                                        <form action="{{ route('posts.destroy', $post->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
-                            @endforeach
+                        @endforeach
 
                     </tbody>
                 </table>
-                {{$posts->links()}}
+                {{ $posts->links() }}
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ use App\Http\Middleware\AuthCheck;
 use App\Models\posts1;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File; // Correct import for File
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -18,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts= Cache::remember('posts-page-'.request('page',1), 60*3, function () {
+        $posts= Cache::remember('posts-page-'.request('page',1), 0.5, function () {
             return posts1::with('category1')->paginate(3);
         });
         // $posts= Cache::rememberForever('posts1', function () {
@@ -34,6 +35,9 @@ class PostController extends Controller
      */
     public function create()
     {
+        // Gate::authorize('create_post');
+        Gate::authorize('create',posts1::class);
+        // Gate::authorize(())
         $categories = categories1::all();
         // return $categories;
         return view('create', compact('categories'));
@@ -80,7 +84,12 @@ class PostController extends Controller
     public function edit(string $id)
     {
         //
+        // Gate::authorize('edit_post');
         $post = posts1::findOrfail($id);
+
+        Gate::authorize('update',$post);
+
+
         $categories = categories1::all();
         return view('edit', compact('post', 'categories'));
     }
@@ -91,9 +100,14 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        // Gate::authorize('edit_post');
+
+
 
         // !return $request->all();
         $post = posts1::findOrFail($id);
+        Gate::authorize('update',$post);
+
         $request->validate([
             // 'image'=>['required','max:2080','image'],
             'title' => ['required', 'max:255'],
@@ -128,7 +142,12 @@ class PostController extends Controller
     {
         //
         // return $id;
+        // Gate::authorize('delete_post');
+
         $post = posts1::findOrFail($id);
+        Gate::authorize('delete',$post);
+
+
 
         $post->delete();
         return redirect()->route('posts.index');
@@ -137,15 +156,20 @@ class PostController extends Controller
     public function trash()
     {
         // return 'hello';
-
+        Gate::authorize('delete_post');
         $posts = posts1::onlyTrashed()->get();
+        // Gate::authorize('trash',$posts);
+
         return view('trasehed', compact('posts'));
     }
 
     public function restore($id)
     {
         // return 'gagagafg'
+        // Gate::authorize('delete_post');
+
         $post = posts1::onlyTrashed()->findOrFail($id);
+        Gate::authorize('delete',$post);
 
         $post->restore();
 
@@ -154,7 +178,11 @@ class PostController extends Controller
     public function forceDelete($id)
     {
         //   return 'hello';
+        // Gate::authorize('delete_post');
+
         $post = posts1::onlyTrashed()->findOrFail($id);
+        Gate::authorize('delete',$post);
+
         File::delete(public_path($post->image)); // Correct usage of File::delete with public_path
 
         $post->forceDelete();
